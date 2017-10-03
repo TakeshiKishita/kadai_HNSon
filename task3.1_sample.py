@@ -1,14 +1,14 @@
-def make_divisor_list(num):
-    if num < 1:
+def make_divisor_list(x):
+    if x < 1:
         return []
-    elif num == 1:
+    elif x == 1:
         return [1]
     else:
         divisor_list = []
         divisor_list.append(1)
-        for i in range(2, num // 2 + 1):
-            if num % i == 0:
+        for i in range(2, x // 2 + 1):
+            if x % i == 0:
                 divisor_list.append(i)
-        divisor_list.append(num)
+        divisor_list.append(x)
 
         return divisor_list
