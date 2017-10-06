@@ -3,35 +3,14 @@
 
 #coding:utf-8
 
-file_name = "file.txt"
-
-f = open(file)
-reader = f.readlines() # 1行毎にファイル終端まで全て読む(改行文字も含まれる)
-f.close()
-# lines2: リスト。要素は1行の文字列データ
-
-for line in lines2:
-	print line,
-print
-
-
-
-
-
-
-
 def get_prime_number (num):
 	"""Summary line.
-	エラトステネスの篩アルゴリズムを使い、素因数分解を行う
+	エラトステネスの篩を使い、素数を列挙する
 	Args:
 		num (int): 素因数分解を行う数値
 	Returns:
-		list: 素因数分解された素数
+		list: numまでの素数リスト
 	"""
-
-	if not str(num).isdigit() or num < 2:
-		#自然数かつ1以上の数値を判定
-		return print('１より大きい自然数を入力してください')
 
 	sequence_list = [i for i in range (2, num+1)]
 	#2から入力値までの数列のリスト
@@ -55,9 +34,76 @@ def get_prime_number (num):
 				sequence_list.pop(i)
 				continue
 			i += 1
-
 	return prime_list
 
-num = 12
-ans = get_prime_number(num)
-print(ans)
+def check_num_error(num):
+	"""Summary line.
+	文字列の自然数判定
+	Args:
+		num (str): 判定するう数値（文字列）
+	Returns:
+		bool: True/2以上の自然数 False/その他
+	"""
+	ans = False
+	if not num.isdigit():
+		#文字列が数値かつ自然数ではない
+		ans = False
+	elif int(num) < 2:
+		#2より小さい自然数
+		ans = False
+	else:
+		ans = True
+
+
+def prime_factorization(num):
+	"""Summary line.
+	素数を使い、素因数分解を行う
+	Args:
+		num (int): 素因数分解を行う数値
+	Returns:
+		str: 素因数分解の解
+	"""
+
+	ans = ""
+	prime_list = get_prime_number(num)
+	#２からnumまでの素数リストを作成
+
+	square_root_number = num**0.5
+	#引数の平方根
+
+	i = 0
+	while i > (square_root_number)+1:
+		#対象数値の平方根の数まで処理を行う
+		if num % prime_list[i] == 0:
+			if ans == "":
+				ans = str(i)
+			else:
+				ans += ","+str(i)
+			num /= prime_list[i]
+		else:
+			i += 1
+	return ans
+
+
+file_name = "file.txt"
+with open(file_name, "r") as f:
+	#ファイルの内容を読み込む
+	reader = f.readlines()
+
+for i, val in enumerate(reader):
+	#ファイルの内容1行ごとに素因数分解を行う
+	ans = ''
+	num = val.replace('\n', '')
+
+	if check_num_error(num):
+		ans = prime_factorization(int(num))
+		#素因数分解
+	else:
+		ans = "ERROR"
+
+	reader[i] = num+","+str(ans)+"\n"
+	#行の成形
+
+with open(file_name, "w") as f:
+	#ファイルへ書き出す
+	f.writelines(reader)
