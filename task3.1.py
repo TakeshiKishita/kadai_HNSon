@@ -1,8 +1,11 @@
-# 課題3.【プログラミング】
-# ①	変数int xを引数として渡されると、xの約数を全て足し算した結果を返すプログラムを作成せよ。
+# coding=utf-8
+""""
+課題3.【プログラミング】
+①変数int xを引数として渡されると、xの約数を全て足し算した結果を返すプログラムを作成せよ。
+"""
 
-# coding:utf-8
 import math
+import sys
 
 def get_prime_number(num):
 	"""Summary line.
@@ -22,7 +25,7 @@ def get_prime_number(num):
 	while True:
 		prime = min(sequence_list)
 
-		if prime > math.sqrt(num):
+		if float(prime) > math.sqrt(num):
 			# 入力値の平方根以上は全てリストに加えて終了
 			prime_list.extend(sequence_list)
 			break
@@ -66,35 +69,43 @@ def prime_factorization(num):
 
 	return ans_list
 
+num = int(sys.argv[1])
+if num == 1:
+	#1の場合は1を返して終了
+	print(1)
+	sys.exit()
 
-try:
-	while True:
-		num = int(input())
-		prime_list = prime_factorization(num)
-		#素因数分解のリストを作成
+prime_list = prime_factorization(num)
+#素因数分解のリストを作成
 
-		temp_num = 0
-		power_num = 0
-		sum_divisor = 0
-		for i, val in enumerate(prime_list):
-			#素因数分解を用いて約数の総和を求める公式
-			if i == 0:
-				temp_num = 1 + int(val)
-				power_num = 2
+temp_num = 0
+#同約数の和
+power_num = 0
+#累乗の数
+sum_divisor = 0
+# 約数の和
+
+for i, val in enumerate(prime_list):
+	#素因数分解を用いて約数の総和を求める公式
+	if i == 0:
+		temp_num = 1 + int(val)
+		power_num = 2
+	else:
+		if val == prime_list[i-1]:
+			#素数が直前と同じだった場合
+			temp_num += int(val)**power_num
+			power_num += 1
+		else:
+			if sum_divisor == 0:
+				sum_divisor = temp_num
 			else:
-				if val == prime_list[i-1]:
-					#素数が直前と同じだった場合
-					temp_num += int(val)**power_num
-					power_num += 1
-				else:
-					if sum_divisor == 0:
-						sum_divisor = temp_num
-					else:
-						sum_divisor *= temp_num
-					temp_num = 1 + int(val)
-					power_num = 2
+				sum_divisor *= temp_num
+			temp_num = 1 + int(val)
+			power_num = 2
 
-		sum_divisor *= temp_num
-		print(sum_divisor)
-except EOFError:
-	pass
+if sum_divisor == 0:
+	#全て同じ約数だった場合
+	sum_divisor = temp_num
+else:
+	sum_divisor *= temp_num
+print(sum_divisor)

@@ -1,8 +1,13 @@
-# 課題3.【プログラミング】
-# ②-1素因数分解を再帰的に行う関数を作成せよ。
+# coding=utf-8
+"""課題3.【プログラミング】
+②素因数分解を再帰的に行う関数を作成せよ。
+引数にファイル名を入力すると、そのファイルに入力されている
+数値を１行ずつ因数分解し、同ファイルへ出力する
+素因数分解できない文字等には"ERROR"を返す
+"""
 
-# coding:utf-8
 import math
+import sys
 
 def get_prime_number(num):
 	"""Summary line.
@@ -22,7 +27,7 @@ def get_prime_number(num):
 	while True:
 		prime = min(sequence_list)
 
-		if prime > math.sqrt(num):
+		if float(prime) > math.sqrt(num):
 			# 入力値の平方根以上は全てリストに加えて終了
 			prime_list.extend(sequence_list)
 			break
@@ -87,8 +92,8 @@ def prime_factorization(num):
 	return ans_list
 
 
-file_name = "test.txt"
-with open(file_name, "r") as f:
+file_name = sys.argv[1]
+with open(file_name) as f:
 	# ファイルの内容を読み込む
 	reader = f.readlines()
 
