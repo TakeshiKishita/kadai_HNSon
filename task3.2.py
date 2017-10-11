@@ -9,7 +9,7 @@
 import math
 import sys
 
-def get_prime_number(num):
+def _get_prime_number(num):
 	"""Summary line.
 	エラトステネスの篩を使い、素数を列挙する
 	Args:
@@ -44,7 +44,7 @@ def get_prime_number(num):
 	return prime_list
 
 
-def check_num_error(num):
+def _check_num_error(num):
 	"""Summary line.
 	文字列の自然数判定
 	Args:
@@ -63,7 +63,7 @@ def check_num_error(num):
 
 	return ans
 
-def prime_factorization(num):
+def _prime_factorization(num):
 	"""Summary line.
 	素数を使い、素因数分解を行う
 	Args:
@@ -72,7 +72,7 @@ def prime_factorization(num):
 		list: 素因数分解の解
 	"""
 
-	prime_list = get_prime_number(num)
+	prime_list = _get_prime_number(num)
 	# ２からnumまでの素数リストを作成
 
 	temp_num = num
@@ -102,15 +102,15 @@ for i, val in enumerate(reader):
 	ans_list = []
 	num = val.replace('\n', '')
 
-	if check_num_error(num):
+	if _check_num_error(num):
 		# 正しい引数だった場合、素因数分解
-		ans_list = prime_factorization(int(num))
+		ans_list = _prime_factorization(int(num))
 	else:
 		ans_list = ["ERROR"]
 
-	reader[i] = num + "," + ",".join(ans_list) + "\n"
-# 行の成形
+	reader[i] = num + "," + ",".join(ans_list)
+	# 行の成形
 
-with open(file_name, "w") as f:
-	# ファイルへ書き出す
-	f.writelines(reader)
+for i in reader:
+	# 標準出力
+	print(i)

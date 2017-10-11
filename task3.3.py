@@ -12,16 +12,16 @@ import urllib.request
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin, urlparse
 
-target_url = "http://masaboo.cside.com"
-# 特定のURL　A
-target_str = "bg_01"
-# 特定の文字列　B
+target_url = "http://hoge.com"
+# 任意のURL_A
+target_str = "fuga"
+# 特定の文字列_B
 
 domain = "{uri.scheme}://{uri.netloc}/".format(uri=urlparse(target_url))
 # breadcrumb_list = []
 # パンくずリスト
 
-def search_target_url(breadcrumb_list, url):
+def _search_target_url(breadcrumb_list, url):
 	"""Summary line.
 		特定の文字列Bが含まれるurlを検索する
 		Args:
@@ -60,13 +60,13 @@ def search_target_url(breadcrumb_list, url):
 	for link in temp_breadcrumb_list:
 		# 上のループで対象のurlに特定の文字列Bに部分一致するurlが無かった場合
 		next_breadcrumb_list = breadcrumb_list + [link]
-		temp_breadcrumb_list = search_target_url(next_breadcrumb_list, link)
+		temp_breadcrumb_list = _search_target_url(next_breadcrumb_list, link)
 		if temp_breadcrumb_list != next_breadcrumb_list:
 			# 返り値が引数と違っていた場合（対象URLがあった場合）
 			return temp_breadcrumb_list
 
 	return breadcrumb_list
 
-breadcrumb_list = search_target_url([target_url], target_url)
+breadcrumb_list = _search_target_url([target_url], target_url)
 breadcrumb_str = ">".join(breadcrumb_list)
 print(breadcrumb_str)
