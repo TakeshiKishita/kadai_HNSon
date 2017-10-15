@@ -7,6 +7,7 @@
 import math
 import sys
 
+
 def get_prime_number(num):
 	"""Summary line.
 	エラトステネスの篩を使い、素数を列挙する
@@ -17,7 +18,7 @@ def get_prime_number(num):
 	"""
 
 	sequence_list = [i for i in range(2, num + 1)]
-	#2から入力値までの数列のリスト
+	# 2から入力値までの数列のリスト
 
 	prime_list = []
 	# 素数のリスト
@@ -41,7 +42,8 @@ def get_prime_number(num):
 			i += 1
 	return prime_list
 
-def prime_factorization(num):
+
+def _prime_factorization(num):
 	"""Summary line.
 	素数を使い、素因数分解を行う
 	Args:
@@ -56,7 +58,7 @@ def prime_factorization(num):
 	temp_num = num
 	ans_list = []
 	i = 0
-	while num >= prime_list[i]**2:
+	while num >= prime_list[i] ** 2:
 		# 対象数値の平方根の数まで処理を行う
 		if temp_num % prime_list[i] == 0:
 			ans_list.append(str(prime_list[i]))
@@ -69,31 +71,32 @@ def prime_factorization(num):
 
 	return ans_list
 
+
 num = int(sys.argv[1])
-if num == 1:
-	#1の場合は1を返して終了
-	print(1)
+if num == 0 or num == 1:
+	# 0,1の場合はnumを返して終了
+	print(num)
 	sys.exit()
 
-prime_list = prime_factorization(num)
-#素因数分解のリストを作成
+prime_list = _prime_factorization(num)
+# 素因数分解のリストを作成
 
 temp_num = 0
-#同約数の和
+# 同約数の和
 power_num = 0
-#累乗の数
+# 累乗の数
 sum_divisor = 0
 # 約数の和
 
 for i, val in enumerate(prime_list):
-	#素因数分解を用いて約数の総和を求める公式
+	# 素因数分解を用いて約数の総和を求める公式
 	if i == 0:
 		temp_num = 1 + int(val)
 		power_num = 2
 	else:
-		if val == prime_list[i-1]:
-			#素数が直前と同じだった場合
-			temp_num += int(val)**power_num
+		if val == prime_list[i - 1]:
+			# 素数が直前と同じだった場合
+			temp_num += int(val) ** power_num
 			power_num += 1
 		else:
 			if sum_divisor == 0:
@@ -104,7 +107,7 @@ for i, val in enumerate(prime_list):
 			power_num = 2
 
 if sum_divisor == 0:
-	#全て同じ約数だった場合
+	# 全て同じ約数だった場合
 	sum_divisor = temp_num
 else:
 	sum_divisor *= temp_num

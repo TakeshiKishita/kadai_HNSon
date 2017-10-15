@@ -8,18 +8,17 @@ target_strに特定の文字列_Bを
 入力し実行すると、URL経路を出力する
 """
 
+import sys
 import urllib.request
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin, urlparse
 
-target_url = "http://hoge.com"
+target_url = "http://www.htmq.com/"
 # 任意のURL_A
-target_str = "fuga"
+target_str = "doctype"
 # 特定の文字列_B
-
 domain = "{uri.scheme}://{uri.netloc}/".format(uri=urlparse(target_url))
-# breadcrumb_list = []
-# パンくずリスト
+# URL_Aのドメイン
 
 def _search_target_url(breadcrumb_list, url):
 	"""Summary line.
@@ -30,9 +29,7 @@ def _search_target_url(breadcrumb_list, url):
 		Returns:
 			list: パンくずリスト
 		"""
-	try: urllib.request.urlopen(url, timeout=20).read()
-	except: return breadcrumb_list
-	# エラーがあった場合はそのままリストを返す
+	urllib.request.urlopen(url, timeout=20).read()
 
 	temp_breadcrumb_list = []
 	# 余分なurlを排除したリスト
@@ -40,6 +37,9 @@ def _search_target_url(breadcrumb_list, url):
 	# urlからhtmlの情報を取得
 	for link in soup.find_all('a'):
 		# urlからaタグのみを順に抽出(list内の部分一致検索が無いようなので、一度全て回す)
+		if link.get('href') == None:
+			# aタグにリンクがない場合
+			continue
 		link_url = link.get('href')
 		# href内のurlを代入
 		if "://" not in link_url:
@@ -67,6 +67,15 @@ def _search_target_url(breadcrumb_list, url):
 
 	return breadcrumb_list
 
-breadcrumb_list = _search_target_url([target_url], target_url)
-breadcrumb_str = ">".join(breadcrumb_list)
-print(breadcrumb_str)
+if target_str in target_url:
+	#任意のURLに特定の文字列が含まれていた場合
+	breadcrumb_str = target_url
+else:
+	breadcrumb_list = _search_target_url([target_url], target_url)
+	if breadcrumb_list == [target_url]:
+		#一致するURLが無かった場合
+		breadcrumb_str = "Nothing"
+	else:
+		breadcrumb_str = ">".join(breadcrumb_list)
+	print(breadcrumb_str)
+	sys.exit()
