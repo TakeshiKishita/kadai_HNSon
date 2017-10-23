@@ -1,11 +1,8 @@
 # coding=utf-8
-"""課題3.【プログラミング】
-③任意のURL（Aとする）と、特定の文字列（Bとする）を指定して実行すると、Aを起点としてURLを辿り、
-Bの文字列が出現されるURLまで最も短時間にたどり着き、そのURL経路を出力するプログラムを作成せよ。
-
-target_urlに特定のURL_Aを
-target_strに特定の文字列_Bを
-入力し実行すると、URL経路を出力する
+"""
+target_urlに特定のURLを
+target_strに特定の文字列を
+入力し実行すると、文字列が含まれるURL経路を標準出力する。
 """
 
 import sys
@@ -13,9 +10,9 @@ import urllib.request
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin, urlparse
 
-target_url = "http://www.htmq.com/"
+target_url = "http://*TARGET URL*.com/"
 # 任意のURL_A
-target_str = "doctype"
+target_str = "TARGET TEXT"
 # 特定の文字列_B
 domain = "{uri.scheme}://{uri.netloc}/".format(uri=urlparse(target_url))
 # URL_Aのドメイン
